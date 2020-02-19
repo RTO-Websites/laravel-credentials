@@ -1,13 +1,17 @@
 {
-    "name": "beyondcode/laravel-credentials",
+    "name": "rto-websites/laravel-credentials",
     "description": "Store and access encrypted credentials in your Laravel application.",
     "keywords": [
-        "beyondcode",
+        "rto-websites",
         "laravel-credentials"
     ],
-    "homepage": "https://github.com/beyondcode/laravel-credentials",
+    "homepage": "https://github.com/RTO-Websites/laravel-credentials",
     "license": "MIT",
     "authors": [
+        {
+            "name": "RTO Websites",
+            "email": "kdhp-dev@rto.de"
+        },
         {
             "name": "Marcel Pociot",
             "email": "marcel@beyondco.de",
@@ -25,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "BeyondCode\\Credentials\\": "src"
+            "RtoWebsites\\Credentials\\": "src"
         },
         "files": [
             "src/helpers.php"
@@ -33,7 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "BeyondCode\\Credentials\\Tests\\": "tests"
+            "RtoWebsites\\Credentials\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -47,7 +51,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BeyondCode\\Credentials\\CredentialsServiceProvider"
+                "RtoWebsites\\Credentials\\CredentialsServiceProvider"
             ]
         }
     }

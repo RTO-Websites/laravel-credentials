@@ -1,12 +1,12 @@
 <?php
 
-namespace BeyondCode\Credentials\Tests;
+namespace RtoWebsites\Credentials\Tests;
 
 use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Encryption\Encrypter;
-use BeyondCode\Credentials\Credentials;
-use BeyondCode\Credentials\CredentialsServiceProvider;
+use RtoWebsites\Credentials\Credentials;
+use RtoWebsites\Credentials\CredentialsServiceProvider;
 
 class CredentialTest extends TestCase
 {
