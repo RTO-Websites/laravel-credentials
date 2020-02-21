@@ -2,162 +2,118 @@
 
 namespace RtoWebsites\Credentials\Tests;
 
-use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Mockery\MockInterface;
 use Orchestra\Testbench\TestCase;
-use Illuminate\Encryption\Encrypter;
 use RtoWebsites\Credentials\Credentials;
 use RtoWebsites\Credentials\CredentialsServiceProvider;
+use RtoWebsites\Credentials\EditCredentialsCommand;
 
 class CredentialTest extends TestCase
 {
+    use WithFaker;
+
     protected function getPackageProviders($app)
     {
         return [CredentialsServiceProvider::class];
     }
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        Config::set('credentials.file', __DIR__ . '/temp/credentials.php.enc');
+    }
+
     public function tearDown(): void
     {
-        @unlink(__DIR__ . '/temp/credentials.php.enc');
-    }
-
-    /** @test */
-    public function it_can_load_encrypted_files()
-    {
-        $masterKey = Str::random(16);
-
-        // create fake credentials
-        $encrypter = new Encrypter($masterKey);
-        $fakeCredentials = $encrypter->encrypt([
-            'key' => 'my-secret-value'
-        ]);
-
-        $encryptedData = '<?php return '.var_export($fakeCredentials, true).';';
-
-        file_put_contents(__DIR__ . '/temp/credentials.php.enc', $encryptedData);
-
-        $credentials = new Credentials($encrypter);
-
-        $credentials->load(__DIR__ . '/temp/credentials.php.enc');
-
-        $this->assertSame('my-secret-value', $credentials->get('key'));
-    }
-
-    /** @test */
-    public function it_can_store_data_encrypted()
-    {
-        $masterKey = Str::random(16);
-
-        $encrypter = new Encrypter($masterKey);
-
-        $data = [
-            'key' => 'my-secret-value'
-        ];
-
-        $credentials = new Credentials($encrypter);
-
-        $credentials->store($data, __DIR__ . '/temp/credentials.php.enc');
-
-        $this->assertSame([
-            'key' => 'my-secret-value'
-        ], $credentials->load(__DIR__ . '/temp/credentials.php.enc'));
-    }
-
-    /** @test */
-    public function it_returns_decrypted_data()
-    {
-        $masterKey = Str::random(16);
-
-        // create fake credentials
-        $encrypter = new Encrypter($masterKey);
-        $fakeCredentials = $encrypter->encrypt([
-            'key' => 'my-secret-value'
-        ]);
-
-        $encryptedData = '<?php return '.var_export($fakeCredentials, true).';';
-
-        file_put_contents(__DIR__ . '/temp/credentials.php.enc', $encryptedData);
-
-        $credentials = new Credentials($encrypter);
-
-        $decrypted = $credentials->load(__DIR__ . '/temp/credentials.php.enc');
-
-        $this->assertSame([
-            'key' => 'my-secret-value'
-        ], $decrypted);
+        @unlink(Config::get('credentials.file'));
     }
 
     /**
      * @test
      */
-    public function it_can_not_decrypt_with_the_wrong_key()
+    public function credentials_are_stored_encrypted()
     {
-        $this->expectException(DecryptException::class);
+        Config::set('credentials.key', $credentialsKey = Str::random(32));
 
-        $masterKey = Str::random(16);
+        /* @var Credentials $credentials */
+        $credentials = $this->app->get(Credentials::class);
 
-        // create fake credentials
-        $encrypter = new Encrypter($masterKey);
-        $fakeCredentials = $encrypter->encrypt([
-            'key' => 'my-secret-value'
-        ]);
+        $this->assertFileNotExists($file = Config::get('credentials.file'));
+        $this->assertEmpty($credentials->load($file));
 
-        $encryptedData = '<?php return '.var_export($fakeCredentials, true).';';
+        $secretData = [
+            'key' => $secretPassword = $this->faker->password,
+        ];
 
-        file_put_contents(__DIR__ . '/temp/credentials.php.enc', $encryptedData);
+        $credentials->store($secretData, $file);
 
-        $credentials = new Credentials(new Encrypter(Str::random(16)));
+        $this->assertFileExists($file);
 
-        $credentials->load(__DIR__ . '/temp/credentials.php.enc');
+        $encryptedData = file_get_contents($file);
+
+        $this->assertStringNotContainsString($secretPassword, $encryptedData);
+        $this->assertEquals($secretData, $credentials->load($file));
+        $this->assertEquals($secretPassword, $credentials->get('key'));
+
     }
 
-    /** @test */
+    /**
+     * @test
+     */
+    public function the_credentials_key_can_be_base_64_encoded()
+    {
+        $credentialsKey = base64_encode(Str::random(32));
+        Config::set('credentials.key', "base64:$credentialsKey");
+
+        $secretData = [
+            'key' => $secretPassword = $this->faker->password,
+        ];
+
+        /* @var Credentials $credentials */
+        $credentials = $this->app->get(Credentials::class);
+        $credentials->store($secretData, $file = Config::get('credentials.file'));
+        $loadedData = $credentials->load($file);
+
+        $this->assertEquals($secretData, $loadedData);
+        $this->assertEquals($secretPassword, $credentials->get('key'));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_use_the_helper_function()
     {
-        $this->app['config']->set('credentials.file', __DIR__ . '/temp/credentials.php.enc');
-
-        $data = [
-            'key' => 'my-secret-value'
+        $secretData = [
+            'key' => $secretPassword = $this->faker->password,
         ];
 
-        $credentials = app(Credentials::class);
+        /* @var Credentials $credentials */
+        $credentials = $this->app->get(Credentials::class);
+        $credentials->store($secretData, Config::get('credentials.file'));
 
-        $credentials->store($data, __DIR__ . '/temp/credentials.php.enc');
-
-        $this->assertSame('my-secret-value', credentials('key'));
+        $this->assertSame($secretPassword, credentials('key'));
     }
 
-    /** @test */
-    public function it_can_give_a_default_to_the_helper_function()
+    /**
+     * @test
+     */
+    public function the_edit_credentials_command_creates_the_credentials_file()
     {
-        $this->app['config']->set('credentials.file', __DIR__ . '/temp/credentials.php.enc');
+        $this->assertFileNotExists($file = Config::get('credentials.file'));
 
-        $data = [
-            'key' => 'my-secret-value'
-        ];
+        /* @var Credentials $credentials */
+        $credentials = $this->app->get(Credentials::class);
 
-        $credentials = app(Credentials::class);
+        /* @var EditCredentialsCommand $command */
+        $command = $this->mock(EditCredentialsCommand::class, function (MockInterface $mock) {
+            $mock->makePartial()->shouldReceive('runEditor', 'info');
+        });
+        $command->handle($credentials);
 
-        $credentials->store($data, __DIR__ . '/temp/credentials.php.enc');
-
-        $this->assertSame('my-fallback-value', credentials('wrong-key', 'my-fallback-value'));
+        $this->assertFileExists($file);
     }
 
-    /** @test */
-    public function it_replaces_credential_strings_in_the_configuration_files()
-    {
-        $this->app['config']->set('credentials.file', __DIR__ . '/temp/credentials.php.enc');
-
-        $data = [
-            'key' => 'my-secret-value'
-        ];
-
-        $credentials = app(Credentials::class);
-
-        $credentials->store($data, __DIR__ . '/temp/credentials.php.enc');
-
-        $this->app['config']->set('credentials.secret', Credentials::CONFIG_PREFIX.'key');
-
-        $this->assertSame('my-secret-value', credentials('key'));
-    }
 }

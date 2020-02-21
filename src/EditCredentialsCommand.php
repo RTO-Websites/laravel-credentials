@@ -38,12 +38,7 @@ class EditCredentialsCommand extends Command
 
         fwrite($handle, json_encode($decrypted, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT));
 
-        $editor = env('EDITOR', 'vi');
-
-        $process = new Process($editor.' '.$meta['uri']);
-
-        $process->setTty(true);
-        $process->mustRun();
+        $this->runEditor($meta['uri']);
 
         $data = json_decode(file_get_contents($meta['uri']), JSON_OBJECT_AS_ARRAY);
 
@@ -54,5 +49,17 @@ class EditCredentialsCommand extends Command
         $credentials->store($data, $filename);
 
         $this->info('Successfully updated credentials.');
+    }
+
+    /**
+     * @param string $argument
+     */
+    public function runEditor(string $argument): void
+    {
+        $editor = config('credentials.editor');
+
+        $process = new Process($editor.' '.$argument);
+        $process->setTty(true);
+        $process->mustRun();
     }
 }
