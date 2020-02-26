@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use RtoWebsites\Credentials\Credentials;
 
 if (! function_exists('credentials')) {
@@ -20,7 +21,7 @@ if (! function_exists('credentials')) {
             $credentials->load($filename);
 
             return $credentials->get($key, $default);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException|BindingResolutionException $e) {
             return Credentials::CONFIG_PREFIX.$key;
         }
     }
