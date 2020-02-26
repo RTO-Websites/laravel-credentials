@@ -1,12 +1,17 @@
 {
     "name": "rto-websites/laravel-credentials",
     "description": "Store and access encrypted credentials in your Laravel application.",
+    "type": "library",
     "keywords": [
         "rto-websites",
         "laravel-credentials"
     ],
     "homepage": "https://github.com/RTO-Websites/laravel-credentials",
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/RTO-Websites/laravel-credentials/issues",
+        "source": "https://github.com/RTO-Websites/laravel-credentials"
+    },
     "authors": [
         {
             "name": "RTO Websites",
