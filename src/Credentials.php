@@ -4,7 +4,6 @@ namespace RtoWebsites\Credentials;
 
 use Illuminate\Support\Arr;
 use Illuminate\Contracts\Encryption\Encrypter;
-use RtoWebsites\Credentials\Exceptions\FileDoesNotExist;
 
 class Credentials
 {
