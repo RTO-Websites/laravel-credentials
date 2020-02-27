@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCode\Credentials;
+namespace RtoWebsites\Credentials;
 
 use Illuminate\Console\Command;
+use RtoWebsites\Credentials\Exceptions\InvalidJSON;
 use Symfony\Component\Process\Process;
-use BeyondCode\Credentials\Exceptions\InvalidJSON;
 
 class EditCredentialsCommand extends Command
 {
@@ -25,8 +25,7 @@ class EditCredentialsCommand extends Command
     /**
      * The command handler.
      *
-     * @param \BeyondCode\Credentials\Credentials $credentials
-     * @return void
+     * @param Credentials $credentials
      */
     public function handle(Credentials $credentials)
     {

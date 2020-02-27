@@ -1,6 +1,7 @@
 The MIT License (MIT)
 
-Copyright (c) Beyond Code GmbH <hello@beyondco.de>
+Copyright (c) for portions of laravel-credentials are held by Beyond Code GmbH <hello@beyondco.de> as part of project Bar.
+All other copyright for laravel-credentials are held by RTO GmbH <kdhp-dev@rto.de>.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCode\Credentials;
+namespace RtoWebsites\Credentials;
 
 use Illuminate\Support\Arr;
 use Illuminate\Contracts\Encryption\Encrypter;
-use BeyondCode\Credentials\Exceptions\FileDoesNotExist;
+use RtoWebsites\Credentials\Exceptions\FileDoesNotExist;
 
 class Credentials
 {

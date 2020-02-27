@@ -1,6 +1,6 @@
 <?php
 
-use BeyondCode\Credentials\Credentials;
+use RtoWebsites\Credentials\Credentials;
 
 if (! function_exists('credentials')) {
     /**
@@ -15,6 +15,7 @@ if (! function_exists('credentials')) {
         $filename = config('credentials.file');
 
         try {
+            /* @var Credentials $credentials */
             $credentials = app(Credentials::class);
             $credentials->load($filename);
 

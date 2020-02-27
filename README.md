@@ -5,7 +5,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/beyondcode/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/beyondcode/laravel-credentials)
 [![Total Downloads](https://img.shields.io/packagist/dt/beyondcode/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-credentials)
 
-The `beyondcode/laravel-credentials` package allows you to store all your secret credentials in an encrypted file and put that file into version control instead of 
+The `rto-websites/laravel-credentials` package allows you to store all your secret credentials in an encrypted file and put that file into version control instead of 
 having to add multiple credentials into your `.env` file in your production environment.
 
 There are a couple of benefits of using encrypted credentials instead of environment keys:
@@ -39,7 +39,7 @@ php artisan credentials:edit
 You can install the package via composer:
 
 ```bash
-composer require beyondcode/laravel-credentials
+composer require rto-websites/laravel-credentials
 ```
 
 The package will automatically register itself.
@@ -47,7 +47,7 @@ The package will automatically register itself.
 You can optionally publish the configuration with:
 
 ```bash
-php artisan vendor:publish --provider="BeyondCode\Credentials\CredentialsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="RtoWebsites\Credentials\CredentialsServiceProvider" --tag="config"
 ``` 
 
 This is the content of the published config file:

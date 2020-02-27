@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCode\Credentials;
+namespace RtoWebsites\Credentials;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
