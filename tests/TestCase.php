@@ -10,7 +10,7 @@ namespace RtoWebsites\Credentials\Tests;
 
 
 use Illuminate\Support\Facades\Config;
-use RtoWebsites\Credentials\CredentialsServiceProvider;
+use RtoWebsites\Credentials\Providers\CredentialsServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

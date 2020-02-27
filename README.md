@@ -47,7 +47,7 @@ The package will automatically register itself.
 You can optionally publish the configuration with:
 
 ```bash
-php artisan vendor:publish --provider="RtoWebsites\Credentials\CredentialsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="RtoWebsites\Credentials\Providers\CredentialsServiceProvider" --tag="config"
 ``` 
 
 This is the content of the published config file:

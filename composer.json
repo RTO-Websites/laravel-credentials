@@ -57,7 +57,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RtoWebsites\\Credentials\\CredentialsServiceProvider"
+                "RtoWebsites\\Credentials\\Providers\\CredentialsServiceProvider"
             ]
         }
     }
