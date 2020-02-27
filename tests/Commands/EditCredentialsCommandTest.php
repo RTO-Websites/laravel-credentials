@@ -11,8 +11,8 @@ namespace RtoWebsites\Credentials\Tests\Commands;
 
 use Illuminate\Support\Facades\Config;
 use Mockery\MockInterface;
+use RtoWebsites\Credentials\Commands\EditCredentialsCommand;
 use RtoWebsites\Credentials\Credentials;
-use RtoWebsites\Credentials\EditCredentialsCommand;
 use RtoWebsites\Credentials\Exceptions\InvalidJSON;
 use RtoWebsites\Credentials\Tests\TestCase;
 

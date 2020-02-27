@@ -6,8 +6,8 @@ use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use RtoWebsites\Credentials\Commands\EditCredentialsCommand;
 use RtoWebsites\Credentials\Credentials;
-use RtoWebsites\Credentials\EditCredentialsCommand;
 
 class CredentialsServiceProvider extends ServiceProvider
 {
