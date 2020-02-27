@@ -5,31 +5,11 @@ namespace RtoWebsites\Credentials\Tests;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Mockery\MockInterface;
-use Orchestra\Testbench\TestCase;
 use RtoWebsites\Credentials\Credentials;
-use RtoWebsites\Credentials\CredentialsServiceProvider;
-use RtoWebsites\Credentials\EditCredentialsCommand;
 
 class CredentialTest extends TestCase
 {
     use WithFaker;
-
-    protected function getPackageProviders($app)
-    {
-        return [CredentialsServiceProvider::class];
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        Config::set('credentials.file', __DIR__ . '/temp/credentials.php.enc');
-    }
-
-    public function tearDown(): void
-    {
-        @unlink(Config::get('credentials.file'));
-    }
 
     /**
      * @test
@@ -95,25 +75,6 @@ class CredentialTest extends TestCase
         $credentials->store($secretData, Config::get('credentials.file'));
 
         $this->assertSame($secretPassword, credentials('key'));
-    }
-
-    /**
-     * @test
-     */
-    public function the_edit_credentials_command_creates_the_credentials_file()
-    {
-        $this->assertFileNotExists($file = Config::get('credentials.file'));
-
-        /* @var Credentials $credentials */
-        $credentials = $this->app->get(Credentials::class);
-
-        /* @var EditCredentialsCommand $command */
-        $command = $this->mock(EditCredentialsCommand::class, function (MockInterface $mock) {
-            $mock->makePartial()->shouldReceive('runEditor', 'info');
-        });
-        $command->handle($credentials);
-
-        $this->assertFileExists($file);
     }
 
 }
