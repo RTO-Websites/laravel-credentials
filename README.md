@@ -5,6 +5,8 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/beyondcode/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/beyondcode/laravel-credentials)
 [![Total Downloads](https://img.shields.io/packagist/dt/beyondcode/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-credentials)
 
+Since the [original package](https://github.com/beyondcode/laravel-credentials) does not seem to be maintained any more, this is an adaptation of the `beyondcode/laravel-credentials` package. See [here](#) how to migrate.
+
 The `rto-websites/laravel-credentials` package allows you to store all your secret credentials in an encrypted file and put that file into version control instead of 
 having to add multiple credentials into your `.env` file in your production environment.
 
@@ -62,6 +64,11 @@ return [
      */
     'file' => config_path('credentials.php.enc'),
 
+    /**
+     *
+     */
+    'editor' => env('CREDENTIALS_EDITOR', 'vi'),
+
     /*
      * Defines the key that will be used to encrypt / decrypt the credentials.
      * The default is your application key. Be sure to keep this key secret!
@@ -72,6 +79,28 @@ return [
 
 ];
 ```
+
+### Migration
+
+If you are about to move over from the [original package](https://github.com/beyondcode/laravel-credentials)
+to this one you may need to make some minor adjustments to your project.
+
+In most cases all you have to do are the following three steps:
+1. run `composer require rto-websites/laravel-credentials`
+1. remove `beyondcode/laravel-credentials` from you `composer.json`
+1. run `composer update beyondcode/laravel-credentials`
+
+If you published the config file you will need to add this line to your `config/credentials.php`:
+
+```php
+'editor' => env('CREDENTIALS_EDITOR', 'vi'),
+```
+
+If you were not using the package auto-discovery and registering the service provider by hand
+you will need make a small adjustment to your registration since the service provider's namespace
+has changed.  
+Go to your `config/app.php` and change
+`BeyondCode\Credentials\CredentialsServiceProvider::class` to `RtoWebsites\Credentials\Providers\CredentialsServiceProvider::class`.
 
 ### Testing
 
