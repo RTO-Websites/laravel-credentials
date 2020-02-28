@@ -18,11 +18,12 @@ class CredentialsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $configFile = dirname(__DIR__, 2) . '/config/credentials.php';
         $this->publishes([
-            __DIR__ . '/../config/credentials.php' => config_path('credentials.php'),
+            $configFile => config_path('credentials.php'),
         ], 'config');
 
-        $this->mergeConfigFrom(dirname(__DIR__) . '/../config/credentials.php', 'credentials');
+        $this->mergeConfigFrom($configFile, 'credentials');
 
         // Update configuration strings
         if (!app()->configurationIsCached()) {
