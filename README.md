@@ -49,7 +49,7 @@ The package will automatically register itself.
 You can optionally publish the configuration with:
 
 ```bash
-php artisan vendor:publish --provider="RtoWebsites\Credentials\Providers\CredentialsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="RtoWebsites\Credentials\CredentialsServiceProvider" --tag="config"
 ``` 
 
 This is the content of the published config file:
@@ -96,11 +96,11 @@ If you published the config file you will need to add this line to your `config/
 'editor' => env('CREDENTIALS_EDITOR', 'vi'),
 ```
 
-If you were not using the package auto-discovery and registering the service provider by hand
+If you are not using the package auto-discovery and registering the service provider by hand
 you will need make a small adjustment to your registration since the service provider's namespace
 has changed.  
-Go to your `config/app.php` and change
-`BeyondCode\Credentials\CredentialsServiceProvider::class` to `RtoWebsites\Credentials\Providers\CredentialsServiceProvider::class`.
+Go to your `config/app.php` and replace
+`BeyondCode\Credentials\CredentialsServiceProvider::class` with `RtoWebsites\Credentials\CredentialsServiceProvider::class`.
 
 ### Testing
 

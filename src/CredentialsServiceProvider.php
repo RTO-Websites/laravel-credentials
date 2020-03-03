@@ -1,13 +1,12 @@
 <?php
 
-namespace RtoWebsites\Credentials\Providers;
+namespace RtoWebsites\Credentials;
 
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use RtoWebsites\Credentials\Commands\EditCredentialsCommand;
-use RtoWebsites\Credentials\Credentials;
 
 class CredentialsServiceProvider extends ServiceProvider
 {
@@ -18,7 +17,7 @@ class CredentialsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configFile = dirname(__DIR__, 2) . '/config/credentials.php';
+        $configFile = dirname(__DIR__) . '/config/credentials.php';
         $this->publishes([
             $configFile => config_path('credentials.php'),
         ], 'config');
