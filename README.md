@@ -34,7 +34,7 @@ With the built-in edit command, you can easily edit your existing credentials. T
 ```bash
 php artisan credentials:edit
 ```
-![Credentials Demo](https://beyondco.de/github/credentials.gif)
+![Credentials Demo](https://github.com/RTO-Websites/laravel-credentials/blob/master/credentials.gif)
 
 ## Installation
 
