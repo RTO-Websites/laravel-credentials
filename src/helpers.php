@@ -1,6 +1,7 @@
 <?php
 
-use BeyondCode\Credentials\Credentials;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use RtoWebsites\Credentials\Credentials;
 
 if (! function_exists('credentials')) {
     /**
@@ -15,11 +16,12 @@ if (! function_exists('credentials')) {
         $filename = config('credentials.file');
 
         try {
+            /* @var Credentials $credentials */
             $credentials = app(Credentials::class);
             $credentials->load($filename);
 
             return $credentials->get($key, $default);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException|BindingResolutionException $e) {
             return Credentials::CONFIG_PREFIX.$key;
         }
     }

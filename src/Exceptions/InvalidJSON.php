@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCode\Credentials\Exceptions;
+namespace RtoWebsites\Credentials\Exceptions;
 
 use Exception;
 
