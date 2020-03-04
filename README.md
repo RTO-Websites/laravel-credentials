@@ -1,9 +1,9 @@
 # Add encrypted credentials to your Laravel production environment
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/beyondcode/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-credentials)
-[![Build Status](https://img.shields.io/travis/beyondcode/laravel-credentials/master.svg?style=flat-square)](https://travis-ci.org/beyondcode/laravel-credentials)
-[![Quality Score](https://img.shields.io/scrutinizer/g/beyondcode/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/beyondcode/laravel-credentials)
-[![Total Downloads](https://img.shields.io/packagist/dt/beyondcode/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-credentials)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rto-websites/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/rto-websites/laravel-credentials)
+[![Build Status](https://img.shields.io/travis/rto-websites/laravel-credentials/master.svg?style=flat-square)](https://travis-ci.org/rto-websites/laravel-credentials)
+[![Quality Score](https://img.shields.io/scrutinizer/g/rto-websites/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/rto-websites/laravel-credentials)
+[![Total Downloads](https://img.shields.io/packagist/dt/rto-websites/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/rto-websites/laravel-credentials)
 
 Since the [original package](https://github.com/beyondcode/laravel-credentials) does not seem to be maintained any more, this is an adaptation of the `beyondcode/laravel-credentials` package. See [here](#) how to migrate.
 
