@@ -10,7 +10,7 @@ return [
     /**
      *
      */
-    'editor' => env('EDITOR', 'vi'),
+    'editor' => env('CREDENTIALS_EDITOR', 'vi'),
 
     /*
      * Defines the key that will be used to encrypt / decrypt the credentials.

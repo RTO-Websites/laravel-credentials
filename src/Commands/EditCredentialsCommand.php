@@ -1,8 +1,9 @@
 <?php
 
-namespace RtoWebsites\Credentials;
+namespace RtoWebsites\Credentials\Commands;
 
 use Illuminate\Console\Command;
+use RtoWebsites\Credentials\Credentials;
 use RtoWebsites\Credentials\Exceptions\InvalidJSON;
 use Symfony\Component\Process\Process;
 
@@ -58,7 +59,7 @@ class EditCredentialsCommand extends Command
     {
         $editor = config('credentials.editor');
 
-        $process = new Process($editor.' '.$argument);
+        $process = new Process([$editor, $argument]);
         $process->setTty(true);
         $process->mustRun();
     }

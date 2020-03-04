@@ -2,10 +2,11 @@
 
 namespace RtoWebsites\Credentials;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use RtoWebsites\Credentials\Commands\EditCredentialsCommand;
 
 class CredentialsServiceProvider extends ServiceProvider
 {
@@ -16,14 +17,15 @@ class CredentialsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $configFile = dirname(__DIR__) . '/config/credentials.php';
         $this->publishes([
-            __DIR__ . '/../config/credentials.php' => config_path('credentials.php'),
+            $configFile => config_path('credentials.php'),
         ], 'config');
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/credentials.php', 'credentials');
+        $this->mergeConfigFrom($configFile, 'credentials');
 
         // Update configuration strings
-        if( !app()->configurationIsCached()) {
+        if (!app()->configurationIsCached()) {
             $this->fixConfig();
         }
     }
@@ -38,7 +40,7 @@ class CredentialsServiceProvider extends ServiceProvider
         collect(Arr::dot(config()->all()))->filter(function ($item) {
             return is_string($item) && Str::startsWith($item, Credentials::CONFIG_PREFIX);
         })->map(function ($item, $key) {
-            $item = str_replace_first(Credentials::CONFIG_PREFIX, '', $item);
+            $item = Str::replaceFirst(Credentials::CONFIG_PREFIX, '', $item);
 
             config()->set($key, credentials($item));
         });
@@ -51,7 +53,7 @@ class CredentialsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Credentials::class, function(){
+        $this->app->bind(Credentials::class, function () {
 
             // If the key starts with "base64:", we will need to decode the key before handing
             // it off to the encrypter. Keys may be base-64 encoded for presentation and we
@@ -68,7 +70,7 @@ class CredentialsServiceProvider extends ServiceProvider
         $this->app->bind('command.credentials.edit', EditCredentialsCommand::class);
 
         $this->commands([
-            'command.credentials.edit'
+            'command.credentials.edit',
         ]);
     }
 }

@@ -12,7 +12,7 @@ namespace RtoWebsites\Credentials\Tests;
 use Illuminate\Support\Facades\Config;
 use RtoWebsites\Credentials\CredentialsServiceProvider;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     /**
      * @inheritDoc

@@ -1,9 +1,11 @@
 # Add encrypted credentials to your Laravel production environment
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/beyondcode/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-credentials)
-[![Build Status](https://img.shields.io/travis/beyondcode/laravel-credentials/master.svg?style=flat-square)](https://travis-ci.org/beyondcode/laravel-credentials)
-[![Quality Score](https://img.shields.io/scrutinizer/g/beyondcode/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/beyondcode/laravel-credentials)
-[![Total Downloads](https://img.shields.io/packagist/dt/beyondcode/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-credentials)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rto-websites/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/rto-websites/laravel-credentials)
+[![Build Status](https://img.shields.io/travis/rto-websites/laravel-credentials/master.svg?style=flat-square)](https://travis-ci.org/rto-websites/laravel-credentials)
+[![Quality Score](https://img.shields.io/scrutinizer/g/rto-websites/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/rto-websites/laravel-credentials)
+[![Total Downloads](https://img.shields.io/packagist/dt/rto-websites/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/rto-websites/laravel-credentials)
+
+Since the [original package](https://github.com/beyondcode/laravel-credentials) does not seem to be maintained any more, this is an adaptation of the `beyondcode/laravel-credentials` package. See [here](#) how to migrate.
 
 The `rto-websites/laravel-credentials` package allows you to store all your secret credentials in an encrypted file and put that file into version control instead of 
 having to add multiple credentials into your `.env` file in your production environment.
@@ -32,7 +34,7 @@ With the built-in edit command, you can easily edit your existing credentials. T
 ```bash
 php artisan credentials:edit
 ```
-![Credentials Demo](https://beyondco.de/github/credentials.gif)
+![Credentials Demo](https://github.com/RTO-Websites/laravel-credentials/blob/master/credentials.gif)
 
 ## Installation
 
@@ -62,6 +64,11 @@ return [
      */
     'file' => config_path('credentials.php.enc'),
 
+    /**
+     *
+     */
+    'editor' => env('CREDENTIALS_EDITOR', 'vi'),
+
     /*
      * Defines the key that will be used to encrypt / decrypt the credentials.
      * The default is your application key. Be sure to keep this key secret!
@@ -72,6 +79,28 @@ return [
 
 ];
 ```
+
+### Migration
+
+If you are about to move over from the [original package](https://github.com/beyondcode/laravel-credentials)
+to this one you may need to make some minor adjustments to your project.
+
+In most cases all you have to do are the following three steps:
+1. run `composer require rto-websites/laravel-credentials`
+1. remove `beyondcode/laravel-credentials` from you `composer.json`
+1. run `composer update beyondcode/laravel-credentials`
+
+If you published the config file you will need to add this line to your `config/credentials.php`:
+
+```php
+'editor' => env('CREDENTIALS_EDITOR', 'vi'),
+```
+
+If you are not using the package auto-discovery and registering the service provider by hand
+you will need make a small adjustment to your registration since the service provider's namespace
+has changed.  
+Go to your `config/app.php` and replace
+`BeyondCode\Credentials\CredentialsServiceProvider::class` with `RtoWebsites\Credentials\CredentialsServiceProvider::class`.
 
 ### Testing
 
