@@ -5,7 +5,11 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/rto-websites/laravel-credentials.svg?style=flat-square)](https://scrutinizer-ci.com/g/rto-websites/laravel-credentials)
 [![Total Downloads](https://img.shields.io/packagist/dt/rto-websites/laravel-credentials.svg?style=flat-square)](https://packagist.org/packages/rto-websites/laravel-credentials)
 
+---
+
 Since the [original package](https://github.com/beyondcode/laravel-credentials) does not seem to be maintained any more, this is an adaptation of the `beyondcode/laravel-credentials` package. See [here](#migration) how to migrate.
+
+---
 
 The `rto-websites/laravel-credentials` package allows you to store all your secret credentials in an encrypted file and put that file into version control instead of 
 having to add multiple credentials into your `.env` file in your production environment.
